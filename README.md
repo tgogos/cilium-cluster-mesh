@@ -13,7 +13,7 @@ Prerequisite: two Kubernetes clusters created with these steps: [kubernetes.md](
 
 ## Setup
 
-ℹ️ *The following steps use the `--context` option both for `kubectl ...` and `cilium ...` commands. They were run from a VM that was not part of any of the clusters.*
+ℹ️ *The following steps use the `--context` option both for `kubectl ...` and `cilium ...` commands. They were run from a VM that was not part of any of the clusters. All the VMs had network connectivity within a Proxmox cluster, no VPN was used.*
 
 ```
            ┌──────────────────────────┐
