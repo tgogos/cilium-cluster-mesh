@@ -43,15 +43,19 @@ cilium uninstall --context $CLUSTER2
 # installation step
 cilium install --context $CLUSTER1 --cluster-name kubernetes-1 --cluster-id 1 --ipv4-native-routing-cidr=10.0.0.0/9
 cilium install --context $CLUSTER2 --cluster-name kubernetes-2 --cluster-id 2 --ipv4-native-routing-cidr=10.0.0.0/9
+```
 
+```
 # enable Cluster Mesh step
 cilium clustermesh enable --context $CLUSTER1 --service-type NodePort
 cilium clustermesh enable --context $CLUSTER2 --service-type NodePort
 
 cilium clustermesh status --context $CLUSTER1 --wait
 cilium clustermesh status --context $CLUSTER2 --wait
+```
 
-# connect clusters
+```
+# connect clusters step
 cilium clustermesh connect --context $CLUSTER1 --destination-context $CLUSTER2
 ```
 
