@@ -59,6 +59,8 @@ cilium clustermesh status --context $CLUSTER2 --wait
 cilium clustermesh connect --context $CLUSTER1 --destination-context $CLUSTER2
 ```
 
+![](/imgs/clustermesh-connect_and_status.png)
+
 ### test pod connectivity
 
 ```
