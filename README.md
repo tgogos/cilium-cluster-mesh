@@ -200,4 +200,5 @@ $ cilium connectivity test --context $CLUSTER1 --multi-cluster $CLUSTER2
 [=] Test [to-fqdns]
 ........
 
-✅ All 41 tests (279 actions) successful, 9 tests skipped, 1 scenarios skipped.```
+✅ All 41 tests (279 actions) successful, 9 tests skipped, 1 scenarios skipped.
+```
