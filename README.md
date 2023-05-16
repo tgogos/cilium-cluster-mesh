@@ -9,3 +9,24 @@ Prerequisite: two Kubernetes clusters created with these steps: [kubernetes.md](
  - 🎥 [eCHO Episode 41: Cilium Clustermesh](https://www.youtube.com/watch?v=VBOONHW65NU&t=342s) (Live demo from Liz Rice)
  - 📝 [Deep Dive into Cilium Multi-cluster](https://cilium.io/blog/2019/03/12/clustermesh/) (cilium blogpost from 2019)
  - 📝 [Multi Cluster Networking with Cilium and Friends](https://cilium.io/blog/2022/04/12/cilium-multi-cluster-networking/) (cilium blogpost from 2022)
+
+
+## Setup
+
+ℹ️ *The following steps use the `--context` option both for `kubectl ...` and `cilium ...` commands. They were run from a VM that was not part of any of the clusters.*
+
+```
+           ┌──────────────────────────┐
+           │                          │
+           │   VM with kubectl that   │
+           │  accesses both clusters  │
+           │                          │
+           └──────┬───────────┬───────┘
+                  │           │
+                  │           │
+┌─────────────────┴──┐     ┌──┴──────────────────┐
+│                    │     │                     │
+│      cluster 1     │     │      cluster 2      │
+│                    │     │                     │
+└────────────────────┘     └─────────────────────┘
+```
