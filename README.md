@@ -209,6 +209,11 @@ $ cilium connectivity test --context $CLUSTER1 --multi-cluster $CLUSTER2
 ✅ All 41 tests (279 actions) successful, 9 tests skipped, 1 scenarios skipped.
 ```
 
+<br><br><br>
+
+
+
+
 
 ## Add a 3rd cluster to the mix!
 
@@ -234,3 +239,6 @@ Cilium clustermesh setup:
     # connect the clusters 1-3 & 2-3
     cilium clustermesh connect --context $CLUSTER1 --destination-context $CLUSTER3
     cilium clustermesh connect --context $CLUSTER2 --destination-context $CLUSTER3
+
+
+![](/imgs/clustermesh-3-clusters-connected.png)
