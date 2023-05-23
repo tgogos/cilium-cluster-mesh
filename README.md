@@ -5,10 +5,11 @@ Prerequisite: two Kubernetes clusters created with these steps: [kubernetes.md](
 
 ## Useful links
 
- - 📄 [Setting up Cluster Mesh](https://docs.cilium.io/en/v1.13/network/clustermesh/clustermesh/) (official documentation)
+ - 📄 [Setting up Cluster Mesh](https://docs.cilium.io/en/v1.13/network/clustermesh/clustermesh/) (cilium official documentation)
  - 🎥 [eCHO Episode 41: Cilium Clustermesh](https://www.youtube.com/watch?v=VBOONHW65NU&t=342s) (Live demo from Liz Rice)
  - 📝 [Deep Dive into Cilium Multi-cluster](https://cilium.io/blog/2019/03/12/clustermesh/) (cilium blogpost from 2019)
  - 📝 [Multi Cluster Networking with Cilium and Friends](https://cilium.io/blog/2022/04/12/cilium-multi-cluster-networking/) (cilium blogpost from 2022)
+ - 📄 [Load-balancing & Service Discovery](https://docs.cilium.io/en/v1.13/network/clustermesh/services/) (cilium official documentation)
 
 
 ## Setup
@@ -242,3 +243,55 @@ Cilium clustermesh setup:
 
 
 ![](/imgs/clustermesh-3-clusters-connected.png)
+
+<br><br><br>
+
+
+
+
+## Load-balancing & Service Discovery
+
+The instructions come directly from the docs.
+
+    kubectl apply -f https://raw.githubusercontent.com/cilium/cilium/v1.13/examples/kubernetes/clustermesh/global-service-example/cluster1.yaml
+    kubectl apply -f https://raw.githubusercontent.com/cilium/cilium/v1.13/examples/kubernetes/clustermesh/global-service-example/cluster2.yaml
+
+For the `kubernetes-3` deployment, download the yaml file and modify accordingly so that the service replies with a `...Cluster-3` message.
+
+Load-balancing in action (from inside a pod):
+
+```bash
+$ kubectl exec -ti deployment/x-wing -- bash
+root@x-wing-64665f7b7b-ksmdk:/curl rebel-base
+{"Galaxy": "Alderaan", "Cluster": "Cluster-1"}
+root@x-wing-64665f7b7b-ksmdk:/# curl rebel-base
+{"Galaxy": "Alderaan", "Cluster": "Cluster-2"}
+root@x-wing-64665f7b7b-ksmdk:/# curl rebel-base
+{"Galaxy": "Alderaan", "Cluster": "Cluster-1"}
+root@x-wing-64665f7b7b-ksmdk:/# curl rebel-base
+{"Galaxy": "Alderaan", "Cluster": "Cluster-3"}
+root@x-wing-64665f7b7b-ksmdk:/# curl rebel-base
+{"Galaxy": "Alderaan", "Cluster": "Cluster-3"}
+root@x-wing-64665f7b7b-ksmdk:/# curl rebel-base
+{"Galaxy": "Alderaan", "Cluster": "Cluster-2"}
+root@x-wing-64665f7b7b-ksmdk:/# curl rebel-base
+{"Galaxy": "Alderaan", "Cluster": "Cluster-3"}
+root@x-wing-64665f7b7b-ksmdk:/# curl rebel-base
+{"Galaxy": "Alderaan", "Cluster": "Cluster-1"}
+root@x-wing-64665f7b7b-ksmdk:/# curl rebel-base
+{"Galaxy": "Alderaan", "Cluster": "Cluster-3"}
+root@x-wing-64665f7b7b-ksmdk:/# curl rebel-base
+{"Galaxy": "Alderaan", "Cluster": "Cluster-1"}
+root@x-wing-64665f7b7b-ksmdk:/# curl rebel-base
+{"Galaxy": "Alderaan", "Cluster": "Cluster-2"}
+root@x-wing-64665f7b7b-ksmdk:/# curl rebel-base
+{"Galaxy": "Alderaan", "Cluster": "Cluster-1"}
+root@x-wing-64665f7b7b-ksmdk:/# curl rebel-base
+{"Galaxy": "Alderaan", "Cluster": "Cluster-1"}
+root@x-wing-64665f7b7b-ksmdk:/# curl rebel-base
+{"Galaxy": "Alderaan", "Cluster": "Cluster-3"}
+root@x-wing-64665f7b7b-ksmdk:/# curl rebel-base
+{"Galaxy": "Alderaan", "Cluster": "Cluster-2"}
+root@x-wing-64665f7b7b-ksmdk:/# curl rebel-base
+{"Galaxy": "Alderaan", "Cluster": "Cluster-1"}
+```
