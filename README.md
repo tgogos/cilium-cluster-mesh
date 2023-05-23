@@ -208,3 +208,29 @@ $ cilium connectivity test --context $CLUSTER1 --multi-cluster $CLUSTER2
 
 ✅ All 41 tests (279 actions) successful, 9 tests skipped, 1 scenarios skipped.
 ```
+
+
+## Add a 3rd cluster to the mix!
+
+The steps below include details on how to add a 3rd cluster which isn't connected to the same network with the first two. Our setup had `kubernetes-1` and `kubernetes-2` in the same lab environment (with network connectivity provided) and now `kubernetes-3` lives inside a DigitalOcean VM and connects to our lab with `openvpn`.
+
+    openvpn3 session-start --config <your_.ovpn_file_here>
+
+Cluster initialization:
+
+    kubeadm init --config kubeadm-init-configuration.yaml --ignore-preflight-errors=NumCPU
+
+Make master node capable of scheduling pods:
+
+    kubectl taint node <your_node_name> node-role.kubernetes.io/control-plane:NoSchedule-
+
+Cilium clustermesh setup:
+
+    cilium uninstall --context $CLUSTER3
+    cilium install --context $CLUSTER3 --cluster-name kubernetes-3 --cluster-id 3 --ipv4-native-routing-cidr=10.0.0.0/9
+    cilium clustermesh enable --context $CLUSTER3 --service-type NodePort
+    cilium clustermesh status --context $CLUSTER3 --wait
+    
+    # connect the clusters 1-3 & 2-3
+    cilium clustermesh connect --context $CLUSTER1 --destination-context $CLUSTER3
+    cilium clustermesh connect --context $CLUSTER2 --destination-context $CLUSTER3
