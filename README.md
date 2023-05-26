@@ -68,7 +68,8 @@ cilium clustermesh connect --context $CLUSTER1 --destination-context $CLUSTER2
 cilium connectivity test --context $CLUSTER1 --multi-cluster $CLUSTER2
 ```
 
-result:
+<details>
+<summary>result:</summary>
 
 ```
 $ cilium connectivity test --context $CLUSTER1 --multi-cluster $CLUSTER2
@@ -209,6 +210,8 @@ $ cilium connectivity test --context $CLUSTER1 --multi-cluster $CLUSTER2
 
 ✅ All 41 tests (279 actions) successful, 9 tests skipped, 1 scenarios skipped.
 ```
+ 
+ </details>
 
 <br><br><br>
 
